@@ -1,0 +1,62 @@
+
+$prefix: "pb";
+
+$primary: #0081A7;
+$primary-light: #00AFB9;
+$primary-dark: darken($primary, 15%);
+
+$secondary: #F07167;
+$secondary-light: #FFA575;
+
+$success: #00FF00;
+$warning: #FF9900;
+$danger: #FF0000;
+
+$grey: #C0CECE;
+$grey-dark: darken($grey, 30%);
+$grey-light: lighten($grey, 20%);
+
+// $bg: #F9F5E7;
+$bg: #F1F8F8;
+
+$narrow-content: 500px;
+
+$default-color: darken($primary, 20%);
+$default-font: Nunito, sans-serif;
+$default-letter-spacing: .05em;
+$default-font-size: 16px;
+
+$gap: 24px;
+
+$input-size: 38px;
+$input-size-lg: 48px;
+
+$alignments-h:
+	(space-between, space-between),
+	(space-around, space-around),
+	(flex-start, start),
+	(flex-end, end),
+	(center, center),
+	(stretch, stretch);
+
+$alignments-v:
+	(space-between, space-between),
+	(space-around, space-around),
+	(flex-start, start),
+	(flex-end, end),
+	(center, center),
+	(stretch, stretch);
+
+$state-modifiers: (
+	primary: $primary,
+	primary-light: $primary-light,
+	secondary: $secondary
+);
+
+
+$mq-breakpoints: (
+	xs: 360px,
+	sm: 760px,
+	md: 1200px,
+	lg: 1500px,
+);

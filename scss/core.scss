@@ -1,0 +1,87 @@
+
+* {
+	box-sizing: border-box;
+}
+
+html, #__paperboy, #__layout {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+
+	margin: 0;
+	letter-spacing: $default-letter-spacing;
+
+	background-color: $bg;
+	font-family: $default-font;
+	font-size: $default-font-size;
+	color: $default-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: $primary;
+}
+
+a {
+	color: $primary;
+	cursor: pointer;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.layout {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+
+	.content {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		padding: $gap;
+	}
+}
+
+.pageTransition {
+	&-enter-active, &-leave-active {
+		transition: transform .4s, opacity .3s;
+		opacity: 1;
+	}
+
+	&-enter {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	&-leave-active {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+}
+
+.layoutTransition {
+	&-enter-active, &-leave-active {
+		transition: transform .4s, opacity .3s;
+		opacity: 1;
+	}
+
+	&-enter, &-leave-active {
+		transform: scale(.7);
+		opacity: 0;
+	}
+}
+
+.modalContainer {
+	position: fixed;
+	z-index: 9999;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}

@@ -1,0 +1,55 @@
+$fonts: (
+	"Raleway": (
+		"Raleway-ThinItalic": ( style: italic, weight: 100),
+		"Raleway-ExtraLightItalic": ( style: italic, weight: 200),
+		"Raleway-LightItalic": ( style: italic, weight: 300),
+		"Raleway-RegularItalic": ( style: italic, weight: 400),
+		"Raleway-MediumItalic": ( style: italic, weight: 500),
+		"Raleway-SemiBoldItalic": ( style: italic, weight: 600),
+		"Raleway-BoldItalic": ( style: italic, weight: 700),
+		"Raleway-ExtraBoldItalic": ( style: italic, weight: 800),
+		"Raleway-BlackItalic": ( style: italic, weight: 900),
+		"Raleway-Thin": ( style: normal, weight: 100),
+		"Raleway-ExtraLight": ( style: normal, weight: 200),
+		"Raleway-Light": ( style: normal, weight: 300),
+		"Raleway-Regular": ( style: normal, weight: 400),
+		"Raleway-Medium": ( style: normal, weight: 500),
+		"Raleway-SemiBold": ( style: normal, weight: 600),
+		"Raleway-Bold": ( style: normal, weight: 700),
+		"Raleway-ExtraBold": ( style: normal, weight: 800),
+		"Raleway-Black": ( style: normal, weight: 900)
+	),
+	"Nunito": (
+		"Nunito-ExtraLightItalic": ( style: italic, weight: 200),
+		"Nunito-LightItalic": ( style: italic, weight: 300),
+		"Nunito-RegularItalic": ( style: italic, weight: 400),
+		"Nunito-SemiBoldItalic": ( style: italic, weight: 600),
+		"Nunito-BoldItalic": ( style: italic, weight: 700),
+		"Nunito-ExtraBoldItalic": ( style: italic, weight: 800),
+		"Nunito-BlackItalic": ( style: italic, weight: 900),
+		"Nunito-ExtraLight": ( style: normal, weight: 200),
+		"Nunito-Light": ( style: normal, weight: 300),
+		"Nunito-Regular": ( style: normal, weight: 400),
+		"Nunito-SemiBold": ( style: normal, weight: 600),
+		"Nunito-Bold": ( style: normal, weight: 700),
+		"Nunito-ExtraBold": ( style: normal, weight: 800),
+		"Nunito-Black": ( style: normal, weight: 900)
+	)
+);
+
+@each $font, $files in $fonts {
+
+	@each $filename, $props in $files {
+		$style: map-get($props, "style");
+		$weight: map-get($props, "weight");
+
+
+		@font-face {
+			font-family: $font;
+			font-style: $style;
+			font-weight: $weight;
+			font-display: swap;
+			src: url("/fonts/#{$filename}.ttf") format("truetype");
+		}
+	}
+}
