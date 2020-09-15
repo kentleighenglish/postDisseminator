@@ -3,10 +3,15 @@ import debugFunc from "debug";
 
 const debug = debugFunc("db:utils");
 
-export const tables = [
-	"users",
-	"posts"
-];
+export const tables = {
+	"users": {
+		secondaryIndices: ["username"]
+	},
+	"posts": {},
+	"sessions": {
+		secondaryIndices: ["token"]
+	}
+};
 
 const {
 	RETHINK_HOST,
@@ -37,7 +42,7 @@ const run = async query => {
 const checkAsserts = async () => {
 	await assertDb();
 
-	await Promise.all(tables.map(async table => {
+	await Promise.all(Object.keys(tables).map(async table => {
 		await assertTable(table);
 	}));
 }

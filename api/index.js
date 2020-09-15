@@ -21,6 +21,11 @@ const sendOutput = (request, response) => (data = null, error = null, success = 
 export default async (request, response, next) => {
 	response.send = sendOutput(request, response);
 
+	if (request.method !== "POST") {
+		response.end("");
+		return;
+	}
+
 	try {
 		// throw new Error("test");
 		const { url } = request;
@@ -36,6 +41,6 @@ export default async (request, response, next) => {
 		}
 	} catch(e) {
 		console.error(e);
-		response.send(null, e.message, false);
+		response.send(null, e, false);
 	}
 }

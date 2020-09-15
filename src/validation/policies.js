@@ -13,8 +13,8 @@ export const loginPassword = {
 }
 
 export const requiredPassword = {
-	required: true,
-	password: true
+	password: true,
+	required: true
 }
 
 export const requiredConfirmPassword = {

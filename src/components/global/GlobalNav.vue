@@ -10,7 +10,8 @@
 		<nav class="topNav__user">
 			<ul class="userNav">
 				<li v-for="item in userItems">
-					<NuxtLink :to="item.path">{{ item.label }}</NuxtLink>
+					<NuxtLink v-if="item.path" :to="item.path">{{ item.label }}</NuxtLink>
+					<a v-else href="#" @click="handleAction($event, item.action)">{{item.label}}</a>
 				</li>
 			</ul>
 		</nav>
@@ -27,7 +28,7 @@ export default {
 			],
 			user: [
 				{ path: "/login", label: "Login", requiresAuth: false },
-				{ path: "/logout", label: "Logout", requiresAuth: true }
+				{ action: "onLogout", label: "Logout", requiresAuth: true }
 			]
 		}
 	}),
@@ -50,6 +51,16 @@ export default {
 
 				return acc;
 			}, []);
+		},
+		handleAction(e, action) {
+			e.preventDefault();
+
+			if (action && this[action]) {
+				this[action]();
+			}
+		},
+		onLogout() {
+			this.$auth.logout();
 		}
 	}
 }

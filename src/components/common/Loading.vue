@@ -96,7 +96,7 @@ export default {
 			content: "";
 			width: 40px;
 			height: 40px;
-			border: 6px solid $primary;
+			border: 6px solid white;
 			border-radius: 50%;
 			transform: rotate(0deg);
 
@@ -104,14 +104,14 @@ export default {
 		}
 
 		&:before {
-			border-color: $primary transparent;
+			border-color: white transparent;
 		}
 
 		&:after {
 			position: absolute;
 			border-width: 2px;
 			margin-top: 4px;
-			border-color: transparent $primary;
+			border-color: transparent white;
 
 			animation-duration: 1.5s;
 			// animation-direction: reverse;

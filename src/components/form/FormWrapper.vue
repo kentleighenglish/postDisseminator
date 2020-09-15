@@ -49,7 +49,7 @@ export default {
 					});
 
 					if (valid) {
-						// this.submit();
+						this.submit();
 					}
 				}, 100);
 			});

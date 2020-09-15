@@ -1,5 +1,5 @@
 <template>
-	<ValidationProvider tag="div" ref="validation" :name="name" :rules="inputRules" mode="passive" v-slot="v" :class="componentClass">
+	<ValidationProvider tag="div" :vid="name" :name="name" :rules="inputRules" mode="passive" v-slot="v" :class="componentClass">
 		<label v-if="type === 'checkbox'">
 			<input v-model="model" :class="validationClass(v)" :name="name" :type="type" :required="required" :disabled="disabled" @input="updateValue($event.target.value)"></input>
 			<div :class="{ checkbox: true, checked: !!model }">

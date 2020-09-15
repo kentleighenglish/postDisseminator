@@ -5,7 +5,7 @@
 		</div>
 		<div class="pb-padding-h">
 			<FormInput v-model="form.password" name="password" type="password" label="Password" :lg="size === 'lg'" :disabled="submitting || validating" :policy="loginMode ? 'loginPassword' : 'requiredPassword'" required></FormInput>
-			<FormInput v-if="!loginMode" v-model="form.confirmPassword" name="confirmPassword" type="password" label="Confirm Password" :lg="size === 'lg'" :disabled="submitting || validating" policy="registerConfirmPassword" required></FormInput>
+			<FormInput v-if="!loginMode" v-model="form.confirmPassword" name="confirmPassword" type="password" label="Confirm Password" :lg="size === 'lg'" :disabled="submitting || validating" policy="requiredConfirmPassword" required></FormInput>
 			<PButton block lg type="submit" state="primary" :loading="submitting || validating" :disabled="submitting || validating">Submit</PButton>
 			<div class="pb-flex pb-align-space-between">
 				<NuxtLink v-if="loginMode" to="/register">Click here to create an account</NuxtLink>
@@ -46,24 +46,28 @@ export default {
 	}),
 	methods: {
 		...mapActions({
-			login: 'user/login',
-			register: 'user/register'
+			register: "register",
+			addAlert: "addAlert",
+			clearAlerts: "clearAlerts"
 		}),
-		submitForm() {
+		async submitForm() {
 			if (!this.submitting && !this.validating) {
 				try {
 					this.submitting = true;
+					const data = this.form;
 
-					const func = this.loginMode
-					? this.login
-					: this.register;
+					if (this.loginMode) {
+						await this.$auth.loginWith('local', { data });
+					} else {
+						await this.register({ data });
+						await this.$auth.loginWith('local', { data });
+					}
 
-					func(this.form).then((response) => {
-						if (!!response && this.redirect) {
-							this.$router.push('/');
-						}
-						this.submitting = false;
-					});
+					if (this.redirect) {
+						this.$router.push('/');
+					}
+
+					this.submitting = false;
 				} catch(e) {
 					this.submitting = false;
 				}

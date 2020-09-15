@@ -1,13 +1,17 @@
 import Vue from "vue";
 import createLogger from 'vuex/dist/logger'
 import debugFunc from "debug";
+import axios from "axios";
 
 export const MUTATION_TYPES = {
 	OPEN_MODAL: "OPEN_MODAL",
 	CLOSE_MODAL: "CLOSE_MODAL",
 	ADD_ALERT: "ADD_ALERT",
 	REMOVE_ALERT: "REMOVE_ALERT",
-	CLEAR_ALERTS: "CLEAR_ALERTS"
+	CLEAR_ALERTS: "CLEAR_ALERTS",
+	REGISTER: "REGISTER",
+	REGISTER_SUCCESS: "REGISTER_SUCCESS",
+	REGISTER_FAILED: "REGISTER_FAILED"
 }
 
 const middleware = [];
@@ -60,6 +64,15 @@ export const actions = {
 	},
 	clearAlerts: ({ commit }, group) => {
 		commit(MUTATION_TYPES.CLEAR_ALERTS, { group });
+	},
+	register: async ({ commit }, { data }) => {
+		try {
+			commit(MUTATION_TYPES.REGISTER);
+
+			await axios.post("/api/auth/register", { data });
+		} catch(e) {
+			commit(MUTATION_TYPES.REGISTER_FAILED);
+		}
 	}
 }
 
@@ -84,5 +97,11 @@ export const mutations = {
 	},
 	[MUTATION_TYPES.CLEAR_ALERTS]: function(state, { group }) {
 		Vue.set(state.alerts, group, []);
+	},
+	[MUTATION_TYPES.REGISTER]: function(state) {
+	},
+	[MUTATION_TYPES.REGISTER_SUCCESS]: function(state) {
+	},
+	[MUTATION_TYPES.REGISTER_FAILED]: function(state) {
 	}
 }
