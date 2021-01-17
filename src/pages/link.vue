@@ -1,21 +1,29 @@
 <template>
 	<div class="linkPage">
-		<div class="platform" v-for="platform in platforms">
+		<div class="platform" v-for="platform in platforms" :class="{ 'platform--disabled': platform.disabled }" @click="linkAccount(platform)">
 			<div class="platform__content">
 				<img :src="`/svg/platforms/${platform.key}.svg`" class="platform__icon" />
 				<h2 class="platform__label">{{ platform.label }}</h2>
 			</div>
 		</div>
-		<GlobalModal></GlobalModal>
+		<GlobalModal name="linkModal">
+			<!-- <iframe src="https://api.twitter.com/oauth/authenticate?oauth_token=asd" width="100%" height="400px"></iframe> -->
+		</GlobalModal>
 	</div>
 </template>
 <script>
 	import { mapActions, mapState } from "vuex";
+	import Twitter from "twitter-lite";
+	import * as platforms from "@@/platforms";
+
+	const modals = {
+		twitter: "twitterLinkModal"
+	}
 
 	export default {
-		mounted() {
-
-		},
+		data: () => ({
+			modalData: null
+		}),
 		computed: {
 			...mapState({
 				platforms: state => state.platforms.platforms
@@ -23,9 +31,20 @@
 		},
 		methods: {
 			...mapActions({
+				openModal: "openModal"
 			}),
-			linkAccount(platform) {
-				console.log(platform);
+			async linkAccount(platform) {
+				const methods = platforms[platform.key] || {};
+
+				if (methods.link) {
+					const token = await methods.link({
+						config: this.$config,
+						openModal: (data) => {
+							this.modalData = data;
+							this.openModal("linkModal");
+						}
+					});
+				}
 			}
 		}
 	}
@@ -52,6 +71,11 @@
 				display: block;
 				content: "";
 				padding-top: 100%;
+			}
+
+			&--disabled {
+				pointer-events: none;
+				opacity: .2
 			}
 
 			.platform__content {

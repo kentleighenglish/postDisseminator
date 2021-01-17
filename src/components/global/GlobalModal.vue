@@ -2,7 +2,20 @@
 	<portal to="modal" v-if="visible">
 		<transition appear name="modal-load" v-on:leave="onLeave">
 			<div class="modal">
-				<div>MODAL</div>
+					<div class="modal__content" :class="modalClass">
+						<div class="le-padding-h">
+							<slot></slot>
+						</div>
+						<div class="modal__footer">
+							<div class="le-flex le-padding-h">
+								<PButton state="primary" block @click="onConfirm()" :disabled="submitting || confirmDisabled" :loading="submitting">{{ confirmLabel }}</PButton>
+							</div>
+							<div class="le-flex le-padding-h">
+								<PButton block @click="onClose()" :disabled="submitting || closeDisabled">{{ closeLabel }}</PButton>
+							</div>
+						</div>
+					</div>
+				<div v-if="overlay" class="overlay" @click="overlayClick()"></div>
 			</div>
 		</transition>
 	</portal>

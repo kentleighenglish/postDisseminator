@@ -1,6 +1,13 @@
+const {
+	TWITTER_KEY,
+	TWITTER_SECRET,
+	SITE_HOST
+} = process.env;
 
 const clientConfig = {
-	test: process.env.TEST
+	internal: {
+		host: SITE_HOST
+	}
 }
 
 export default {
@@ -59,9 +66,5 @@ export default {
 		"./scss/bootstrap.scss"
 	],
 	publicRuntimeConfig: clientConfig,
-	privateRuntimeConfig: {
-		rethink: {
-			port: 8080
-		}
-	}
+	privateRuntimeConfig: {}
 }
