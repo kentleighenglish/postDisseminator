@@ -22,11 +22,10 @@ const getUser = async username => {
 const getUserFromToken = async token => {
 	const session = await getSession(token);
 
-
 	if (session) {
 		const { user_id } = session;
 
-		const user = await run(db => db.collection(USER_TABLE).findOne({ id: user_id }));
+		const user = await run(db => db.collection(USER_TABLE).findOne({ _id: user_id }));
 
 		if (user) {
 			return { user: pick(user, clientFields) };
@@ -64,9 +63,9 @@ const createSession = async id => {
 	try {
 		const ms = moment().valueOf();
 
-		const hash = await argon2.hash(id);
+		const hash = await argon2.hash(id.toString());
 
-		const token = cryptr.encrypt(`${hash.substr(-8)} ${ms}`)
+		const token = cryptr.encrypt(`${hash.substr(-8)} ${ms}`);
 
 		const result = await run(db => db.collection(SESSION_TABLE).insert({
 			token,
@@ -81,7 +80,7 @@ const createSession = async id => {
 }
 
 const deleteSession = async id => {
-	return await run(db => db.collection(SESSION_TABLE).findOne({ id }).delete());
+	return await run(db => db.collection(SESSION_TABLE).findOne({ _id: id }).delete());
 }
 
 export const register = async ({ username = null, password = null, confirmPassword = null }) => {
@@ -143,7 +142,7 @@ export const login = async ({ username = null, password = null }) => {
 			throw "Incorrect username or password";
 		}
 
-		const token = await createSession(user.id);
+		const token = await createSession(user._id);
 
 		if (token) {
 			return { token };
@@ -159,7 +158,7 @@ export const logout = async ({ token = null }) => {
 	const session = await getSession(token);
 
 	if (session) {
-		await deleteSession(session.id);
+		await deleteSession(session._id);
 	}
 }
 
