@@ -24,7 +24,7 @@ const getTokenFromRequest = ({ headers: { authorization, cookie }}) => {
 export const login = async (request, response, next) => {
 	const data = request.body;
 
-	const result = await core.rethink.user.login(data);
+	const result = await core.mongo.user.login(data);
 
 	return result;
 }
@@ -32,13 +32,13 @@ export const login = async (request, response, next) => {
 export const logout = async (request, response, next) => {
 	const token = getTokenFromRequest(request);
 
-	const result = await core.rethink.user.logout({ token });
+	const result = await core.mongo.user.logout({ token });
 }
 
 export const register = async (request, response, next) => {
 	const { data = {} } = request.body;
 
-	const result = await core.rethink.user.register(data);
+	const result = await core.mongo.user.register(data);
 
 	return result;
 }
@@ -46,7 +46,7 @@ export const register = async (request, response, next) => {
 export const user = async (request, response, next) => {
 	const token = getTokenFromRequest(request);
 
-	const result = await core.rethink.user.user({ token });
+	const result = await core.mongo.user.user({ token });
 
 	return result;
 }

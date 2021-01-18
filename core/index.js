@@ -1,6 +1,6 @@
 
-import * as rethink from "./rethink";
+import * as mongo from "./mongo";
 
 export default {
-	rethink
+	mongo
 }

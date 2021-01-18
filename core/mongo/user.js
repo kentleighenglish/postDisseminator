@@ -1,4 +1,4 @@
-import { db } from "./utils";
+import { run } from "./utils";
 import argon2 from "argon2";
 import Cryptr from "cryptr";
 import moment from "moment";
@@ -14,7 +14,7 @@ const { AUTH_SALT } = process.env;
 const cryptr = new Cryptr(AUTH_SALT);
 
 const getUser = async username => {
-	const user = db.run(db.mainDb().table(USER_TABLE).getAll(username, { index: "username" }).nth(0).default(null));
+	const user = await run(db => db.collection(USER_TABLE).findOne({ username }));
 
 	return user;
 }
@@ -26,7 +26,7 @@ const getUserFromToken = async token => {
 	if (session) {
 		const { user_id } = session;
 
-		const user = await db.run(db.mainDb().table(USER_TABLE).get(user_id));
+		const user = await run(db => db.collection(USER_TABLE).findOne({ id: user_id }));
 
 		if (user) {
 			return { user: pick(user, clientFields) };
@@ -37,7 +37,7 @@ const getUserFromToken = async token => {
 }
 
 const getSession = async token => {
-	const result = await db.run(db.mainDb().table(SESSION_TABLE).getAll(token, { index: "token" }).nth(0).default(null));
+	const result = await run(db => db.collection(SESSION_TABLE).findOne({ token }));
 
 	if (result) {
 		const rawToken = cryptr.decrypt(result.token) || "";
@@ -68,7 +68,7 @@ const createSession = async id => {
 
 		const token = cryptr.encrypt(`${hash.substr(-8)} ${ms}`)
 
-		const result = await db.run(db.mainDb().table(SESSION_TABLE).insert({
+		const result = await run(db => db.collection(SESSION_TABLE).insert({
 			token,
 			user_id: id
 		}));
@@ -81,7 +81,7 @@ const createSession = async id => {
 }
 
 const deleteSession = async id => {
-	return await db.run(db.mainDb().table(SESSION_TABLE).get(id).delete());
+	return await run(db => db.collection(SESSION_TABLE).findOne({ id }).delete());
 }
 
 export const register = async ({ username = null, password = null, confirmPassword = null }) => {
@@ -104,15 +104,12 @@ export const register = async ({ username = null, password = null, confirmPasswo
 	}
 
 	try {
-
 		const p = await argon2.hash(password);
 
-		const query = db.mainDb().table(USER_TABLE).insert({
+		const result = await run(db => db.collection(USER_TABLE).insert({
 			username,
 			password: p
-		});
-
-		const result = await db.run(query);
+		}));
 
 		return true;
 	} catch(e) {
