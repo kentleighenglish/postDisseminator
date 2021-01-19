@@ -11,6 +11,19 @@ const clientConfig = {
 }
 
 export default {
+	build: {
+		extend(config, { isClient }) {
+			if (!isClient && config.module && config.module.rules) {
+				config.module.rules = config.module.rules.map(rule => {
+					if (rule.test && rule.test.toString().indexOf("js") !== -1) {
+						rule.use.push("webpack-conditional-loader");
+					}
+
+					return rule;
+				});
+			}
+		}
+	},
 	components: true,
 	globalName: "paperboy",
 	head: {
