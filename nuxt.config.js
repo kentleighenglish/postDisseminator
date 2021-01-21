@@ -45,8 +45,8 @@ export default {
 		{ path: "/api", handler: "@/api/index.js" }
 	],
 	plugins: [
-		// "~/plugins/platforms.client.js",
-		// "~/plugins/platforms.server.js",
+		"~/plugins/platforms.client.js",
+		"~/plugins/platforms.server.js",
 	],
 	transpile: [ "@nuxtjs/auth" ],
 	auth: {
