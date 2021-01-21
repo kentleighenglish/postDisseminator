@@ -1,4 +1,4 @@
-import * as platforms from "../../platforms";
+import platforms from "../../plugins/platforms.server.js";
 
 const {
 	SITE_HOST

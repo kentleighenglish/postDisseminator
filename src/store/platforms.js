@@ -1,9 +1,9 @@
-import * as platforms from "~~/platforms"
-
+import { reduce } from "lodash";
+import platforms from "~/plugins/platforms.client.js"
 
 export const state = () => ({
-	platforms: Object.keys(platforms).reduce((acc, key) => {
-		const { label, link, disabled = false } = platforms[key];
+	platforms: reduce(platforms(), (acc, platform, key) => {
+		const { label, link, disabled = false } = platform;
 
 		return [
 			...acc,

@@ -1,3 +1,5 @@
+import path from "path";
+
 const {
 	TWITTER_KEY,
 	TWITTER_SECRET,
@@ -39,8 +41,12 @@ export default {
 	],
 	middleware: ["auth"],
 	serverMiddleware: [
-		{ path: "/api", handler: "@@/api/body-parse.js" },
-		{ path: "/api", handler: "@@/api/index.js" }
+		{ path: "/api", handler: "@/api/body-parse.js" },
+		{ path: "/api", handler: "@/api/index.js" }
+	],
+	plugins: [
+		// "~/plugins/platforms.client.js",
+		// "~/plugins/platforms.server.js",
 	],
 	transpile: [ "@nuxtjs/auth" ],
 	auth: {

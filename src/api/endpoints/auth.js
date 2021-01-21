@@ -1,4 +1,4 @@
-import core from "../../core";
+import core from "../../../core";
 
 const getTokenFromRequest = ({ headers: { authorization, cookie }}) => {
 	const authSplit = authorization.split(" ");

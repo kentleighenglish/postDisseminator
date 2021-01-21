@@ -14,7 +14,6 @@
 <script>
 	import { mapActions, mapState } from "vuex";
 	import Twitter from "twitter-lite";
-	import * as platforms from "@@/platforms";
 
 	const modals = {
 		twitter: "twitterLinkModal"
@@ -34,7 +33,7 @@
 				openModal: "openModal"
 			}),
 			async linkAccount(platform) {
-				const methods = platforms[platform.key] || {};
+				const methods = this.$platforms[platform.key] || {};
 
 				if (methods.link) {
 					const token = await methods.link({
