@@ -67,7 +67,7 @@ const createSession = async id => {
 
 		const token = cryptr.encrypt(`${hash.substr(-8)} ${ms}`);
 
-		const result = await run(db => db.collection(SESSION_TABLE).insert({
+		const result = await run(db => db.collection(SESSION_TABLE).insertOne({
 			token,
 			user_id: id
 		}));
@@ -105,7 +105,7 @@ export const register = async ({ username = null, password = null, confirmPasswo
 	try {
 		const p = await argon2.hash(password);
 
-		const result = await run(db => db.collection(USER_TABLE).insert({
+		const result = await run(db => db.collection(USER_TABLE).insertOne({
 			username,
 			password: p
 		}));
