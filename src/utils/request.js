@@ -10,7 +10,7 @@ const PREFIX = '/api/';
 
 const requestsLog = {};
 
-const coreRequest = (user) => async (endpoint, data = {}) => {
+const coreRequest = async (endpoint, data = {}) => {
 	const endpointFunc = get(core(user), endpoint.replace(/\//g, '.'));
 
 	if (!endpointFunc) {
@@ -21,7 +21,7 @@ const coreRequest = (user) => async (endpoint, data = {}) => {
 	return endpointFunc(data);
 }
 
-const apiRequest = () => async (endpoint, data = {}, stringify = true) => {
+const apiRequest = async (endpoint, data = {}, stringify = true) => {
 	const url = `${PREFIX}${endpoint}`;
 
 	const key64 = btoa(`${url}${JSON.stringify(data)}`);

@@ -1,12 +1,11 @@
 import axios from "axios";
 import Twitter from "twitter-lite";
+import { request } from "../../utils/request";
 
 export const label = "Twitter";
 
 export const link = () => async ({ config }) => {
-	const response = axios.post("/api/social/link", {
-		platform: "twitter"
-	});
+	const response = await request("social/link", { platform: "twitter" });
 
 	console.log(response);
 }
