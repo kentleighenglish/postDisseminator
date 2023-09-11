@@ -7,10 +7,15 @@ export const label = "Twitter";
 export const link = () => async ({ config }) => {
 	const response = await request("social/link", { platform: "twitter" });
 
-	console.log(response);
+	if (response) {
+		const { token } = response;
+		const url = `https://api.twitter.com/oauth/authenticate?oauth_token=${token}`;
+
+		window.open(url, "_blank");
+	}
 }
 
-export const apiLink = () => async ({ env, callbackUrl }) => {
+export const apiLink = ({ core }) => async ({ env, callbackUrl }) => {
 	const {
 		TWITTER_KEY: consumer_key,
 		TWITTER_SECRET: consumer_secret
@@ -20,7 +25,7 @@ export const apiLink = () => async ({ env, callbackUrl }) => {
 
 	const { oauth_token, oauth_token_secret } = await client.getRequestToken(callbackUrl);
 
-	await saveToken({
+	await saveToken({ core })({
 		oauth_token,
 		oauth_token_secret
 	});
@@ -30,7 +35,8 @@ export const apiLink = () => async ({ env, callbackUrl }) => {
 	}
 }
 
-export const saveToken = () => async () => {
+export const saveToken = ({ core }) => async (payload) => {
+
 }
 
 export const getToken = () => async () => {
